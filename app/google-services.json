@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "557812914905",
+    "project_id": "alimentador-mascotas",
+    "storage_bucket": "alimentador-mascotas.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557812914905:android:fde5af4c86b6154d223cc8",
+        "android_client_info": {
+          "package_name": "com.example.alimentador"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr7BUZzHfEXGBHm1ITsqFW1d3mOs9Kxxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
