@@ -135,6 +135,25 @@ fun PantallaComedero(navController: NavController) {
             Text("Conectar con el comedero")
         }
 
+        Button(
+            onClick = { ConexionBT.simular(uid) { texto -> mensaje = texto } },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Simular comedero (prueba)")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = {
+                referencia.child("nivel").setValue(100)
+                mensaje = "Comedero rellenado"
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Ya rellené el comedero")
+        }
+
         Text(mensaje)
 
         Button(

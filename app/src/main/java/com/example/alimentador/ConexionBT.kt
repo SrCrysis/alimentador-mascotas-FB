@@ -16,6 +16,47 @@ object ConexionBT {
     private val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     private var socket: BluetoothSocket? = null
     private var totalEntregas = 0
+    private var escuchadorSimulado: ValueEventListener? = null
+
+    fun simular(uid: String, avisar: (String) -> Unit) {
+        val referencia = FirebaseDatabase.getInstance().getReference("usuarios/$uid/comedero")
+
+        if (escuchadorSimulado == null) {
+            val escuchador = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val orden = snapshot.child("orden").getValue(Boolean::class.java)
+                    val nivel = snapshot.child("nivel").getValue(Int::class.java)
+                    if (orden == true && nivel != null) {
+                        var contador = 0
+                        for (hijo in snapshot.child("entregas").children) {
+                            contador = contador + 1
+                        }
+
+                        referencia.child("orden").setValue(false)
+                        if (nivel >= 5) {
+                            referencia.child("nivel").setValue(nivel - 5)
+                        } else {
+                            referencia.child("nivel").setValue(0)
+                        }
+                        referencia.child("entregas").push().setValue(Entrega(contador + 1, "App"))
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            }
+            escuchadorSimulado = escuchador
+            referencia.addValueEventListener(escuchador)
+            referencia.child("estado").onDisconnect().setValue("Desconectado")
+            referencia.child("estado").setValue("Conectado")
+            avisar("Simulación activada")
+        } else {
+            referencia.removeEventListener(escuchadorSimulado!!)
+            escuchadorSimulado = null
+            referencia.child("estado").setValue("Desconectado")
+            avisar("Simulación desactivada")
+        }
+    }
 
     @SuppressLint("MissingPermission")
     fun conectar(context: Context, uid: String, avisar: (String) -> Unit) {
