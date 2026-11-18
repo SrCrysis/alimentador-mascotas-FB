@@ -94,12 +94,12 @@ fun PantallaIngreso(navController: NavController) {
             Button(
                 onClick = {
                     // Validaciones locales en la app ANTES de llamar a Firebase
-                    if (correo.isBlank() || !ValidacionesAuth.esCorreoValido(correo)) {
-                        errorMensaje = "Correo con formato inválido"
+                    if (correo.isBlank() || pass.isBlank()) {
+                        errorMensaje = "Ingresa tu correo y contraseña"
                         return@Button
                     }
-                    if (pass.isBlank() || !ValidacionesAuth.esContrasenaSegura(pass)) {
-                        errorMensaje = "Contraseña insegura (mínimo 8 caracteres, con mayúscula, minúscula y número)"
+                    if (!ValidacionesAuth.esCorreoValido(correo)) {
+                        errorMensaje = "Correo con formato inválido"
                         return@Button
                     }
 
@@ -114,9 +114,9 @@ fun PantallaIngreso(navController: NavController) {
                                 popUpTo("ingreso") { inclusive = true }
                             }
                         }
-                        .addOnFailureListener { exception ->
+                        .addOnFailureListener {
                             cargando = false
-                            errorMensaje = ValidacionesAuth.parsearErrorFirebase(exception)
+                            errorMensaje = "Correo o contraseña incorrectos"
                         }
                 },
                 modifier = Modifier.fillMaxWidth()

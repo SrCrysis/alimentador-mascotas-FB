@@ -1,11 +1,7 @@
 package com.example.alimentador
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,19 +17,8 @@ fun NavegacionApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     val auth = remember { FirebaseAuth.getInstance() }
 
-    // Persistencia de sesión: si el usuario ya inició sesión, ingresa directo a "comedero"
     val destinoInicial = remember {
         if (auth.currentUser != null) "comedero" else "ingreso"
-    }
-
-    // Datos compartidos entre las pantallas
-    var comida by remember { mutableIntStateOf(75) }
-    val historial = remember {
-        mutableStateListOf(
-            Entrega(3, "Automática"),
-            Entrega(2, "Manual"),
-            Entrega(1, "Automática"),
-        )
     }
 
     NavHost(
@@ -48,20 +33,10 @@ fun NavegacionApp(modifier: Modifier = Modifier) {
             PantallaCrearCuenta(navController)
         }
         composable("comedero") {
-            PantallaComedero(
-                navController = navController,
-                comida = comida,
-                onServir = {
-                    comida -= 5
-                    historial.add(0, Entrega(historial.size + 1, "Manual"))
-                }
-            )
+            PantallaComedero(navController)
         }
         composable("registro") {
-            PantallaRegistro(navController, historial)
-        }
-        composable("historial") {
-            PantallaRegistro(navController, historial)
+            PantallaRegistro(navController)
         }
     }
 }
