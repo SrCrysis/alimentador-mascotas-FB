@@ -6,15 +6,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
-/**
- * Validaciones locales de credenciales y manejo de errores de autenticación con Firebase.
- * Cubre autenticación y cifrado de credenciales (2.1.3.10).
- */
 object ValidacionesAuth {
 
-    /**
-     * Valida si el formato del correo electrónico es correcto.
-     */
     fun esCorreoValido(correo: String): Boolean {
         val trimmed = correo.trim()
         if (trimmed.isEmpty()) return false
@@ -22,13 +15,6 @@ object ValidacionesAuth {
         return regex.matches(trimmed)
     }
 
-    /**
-     * Valida que la contraseña sea segura:
-     * - Mínimo 8 caracteres
-     * - Con mayúscula
-     * - Con minúscula
-     * - Con número
-     */
     fun esContrasenaSegura(contrasena: String): Boolean {
         if (contrasena.length < 8) return false
         val tieneMayuscula = contrasena.any { it.isUpperCase() }
@@ -37,10 +23,6 @@ object ValidacionesAuth {
         return tieneMayuscula && tieneMinuscula && tieneNumero
     }
 
-    /**
-     * Realiza las validaciones previas antes de llamar a Firebase.
-     * Retorna el mensaje de error o null si es válido.
-     */
     fun validarCredenciales(correo: String, contrasena: String): String? {
         if (correo.isBlank() || !esCorreoValido(correo)) {
             return "Correo con formato inválido"
@@ -51,12 +33,6 @@ object ValidacionesAuth {
         return null
     }
 
-    /**
-     * Traduce y mapea los errores devueltos por Firebase:
-     * - Correo ya registrado
-     * - Contraseña incorrecta
-     * - Usuario inexistente
-     */
     fun parsearErrorFirebase(exception: Throwable?): String {
         if (exception == null) return "Error de autenticación desconocido"
 

@@ -75,7 +75,6 @@ fun PantallaIngreso(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Error visible en color rojo ante validaciones fallidas o errores de Firebase
         if (!errorMensaje.isNullOrEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
@@ -93,7 +92,6 @@ fun PantallaIngreso(navController: NavController) {
         } else {
             Button(
                 onClick = {
-                    // Validaciones locales en la app ANTES de llamar a Firebase
                     if (correo.isBlank() || pass.isBlank()) {
                         errorMensaje = "Ingresa tu correo y contraseña"
                         return@Button
@@ -103,7 +101,6 @@ fun PantallaIngreso(navController: NavController) {
                         return@Button
                     }
 
-                    // Inicio de sesión con FirebaseAuth y cifrado seguro de credenciales
                     cargando = true
                     errorMensaje = null
 

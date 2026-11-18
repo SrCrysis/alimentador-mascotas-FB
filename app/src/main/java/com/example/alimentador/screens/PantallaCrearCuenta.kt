@@ -89,7 +89,6 @@ fun PantallaCrearCuenta(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Mensaje de error visible en rojo
         if (!errorMensaje.isNullOrEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
@@ -107,7 +106,6 @@ fun PantallaCrearCuenta(navController: NavController) {
         } else {
             Button(
                 onClick = {
-                    // Validaciones en la app ANTES de llamar a Firebase
                     if (correo.isBlank() || !ValidacionesAuth.esCorreoValido(correo)) {
                         errorMensaje = "Correo con formato inválido"
                         return@Button
@@ -121,7 +119,6 @@ fun PantallaCrearCuenta(navController: NavController) {
                         return@Button
                     }
 
-                    // Llamada segura a FirebaseAuth con cifrado de credenciales
                     cargando = true
                     errorMensaje = null
 
